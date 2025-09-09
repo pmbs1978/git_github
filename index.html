@@ -1,483 +1,663 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tutorial: Criar Repositório Local e Conectar ao GitHub</title>
+    <title>Guia Completo de Git e GitHub: Do Básico à Gestão de Commits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      /* Estilos Gerais e Tipografia */
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 20px;
-      }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
-        line-height: 1.7;
-        background-color: #f8f9fa;
-        color: #343a40;
-        margin: 0;
+        font-family: "Inter", sans-serif;
       }
-      h1,
-      h2,
-      h3 {
-        color: #2c3e50;
-        border-bottom: 2px solid #e9ecef;
-        padding-bottom: 10px;
-        font-weight: 600;
-      }
-      h1 {
-        text-align: center;
-        font-size: 2.5em;
-        border-bottom: none;
-      }
-      h2 {
-        font-size: 2em;
-        margin-top: 2.5em;
-      }
-      h3 {
-        font-size: 1.5em;
-        margin-top: 1.8em;
-        border-bottom: none;
-      }
-      code {
-        background-color: #e9ecef;
-        padding: 3px 6px;
-        border-radius: 4px;
+      .code-block {
+        background-color: #1a202c;
+        color: #e2e8f0;
+        padding: 1.25rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        border: 1px solid #2d3748;
         font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
           Courier, monospace;
-        font-size: 0.95em;
       }
-      pre {
-        background-color: #2d2d2d;
-        color: #f1f1f1;
-        padding: 1.2em;
-        border-radius: 8px;
-        overflow-x: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      .code-block .comment {
+        color: #6a737d;
       }
-      pre code {
-        background-color: transparent;
-        padding: 0;
-        color: inherit;
+      .code-block .keyword {
+        color: #d8a6ff;
       }
-      a {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: 500;
+      .code-block .string {
+        color: #9ecbff;
       }
-      a:hover {
-        text-decoration: underline;
-      }
-      ul,
-      ol {
-        padding-left: 20px;
-      }
-      li {
-        margin-bottom: 12px;
-      }
-      .note {
-        background-color: #e7f3fe;
-        border-left: 5px solid #007bff;
-        padding: 15px 20px;
-        margin: 25px 0;
-        border-radius: 0 8px 8px 0;
-      }
-      header,
-      footer {
-        text-align: center;
-      }
-      footer {
-        margin-top: 3rem;
-        color: #6c757d;
+      .command {
+        background-color: #2d3748;
+        color: #a0aec0;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-family: monospace;
         font-size: 0.9em;
       }
-
-      /* --- Layout Principal (Desktop First com menu lateral) --- */
-      body {
-        display: flex; /* Cria o contexto para o layout lateral */
+      h2 {
+        border-bottom: 1px solid #4a5568;
+        padding-bottom: 0.75rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
       }
-
-      .main-nav {
-        position: sticky;
-        top: 0;
-        width: 250px; /* Largura fixa para o menu */
-        height: 100vh; /* Ocupa a altura toda do ecrã */
-        flex-shrink: 0; /* Impede que o menu encolha */
-        background-color: #ffffff;
-        border-right: 1px solid #dee2e6;
-        box-shadow: 3px 0 15px rgba(0, 0, 0, 0.05);
-        padding: 2rem 0;
-        overflow-y: auto; /* Permite scroll no menu se tiver muitos itens */
+      .card {
+        background-color: #2d3748;
+        border: 1px solid #4a5568;
       }
-
-      .main-nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0 1.5rem;
+      .sidebar-scroll::-webkit-scrollbar {
+        width: 8px;
       }
-
-      .main-nav li {
-        margin: 5px 0;
+      .sidebar-scroll::-webkit-scrollbar-track {
+        background: #1a202c;
       }
-
-      .main-nav a {
-        display: block;
-        padding: 12px 16px;
-        color: #343a40;
-        font-weight: 600;
-        border-radius: 6px;
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-      }
-
-      .main-nav a:hover,
-      .main-nav a.active {
-        background-color: #007bff;
-        color: #ffffff;
-        text-decoration: none;
-      }
-
-      .container {
-        flex-grow: 1; /* Permite que o conteúdo principal ocupe o espaço restante */
-        max-width: 800px;
-        margin: 2rem auto; /* Centra o contentor no espaço disponível */
-        padding: 2rem;
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      }
-
-      /* --- Estilos para ecrãs menores (menu no topo) --- */
-      @media (max-width: 1099px) {
-        body {
-          display: block; /* Volta ao layout de bloco normal */
-        }
-
-        .main-nav {
-          position: static; /* Remove o posicionamento fixo/sticky */
-          width: auto;
-          height: auto;
-          padding: 0.5rem 1rem;
-          border-right: none;
-          border-bottom: 1px solid #dee2e6;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .main-nav ul {
-          display: flex; /* Alinha os itens do menu horizontalmente */
-          flex-direction: row;
-          justify-content: center;
-          flex-wrap: wrap;
-          padding: 0;
-        }
-
-        .main-nav li {
-          margin: 5px 10px;
-        }
-
-        .container {
-          margin: 2rem auto;
-          padding: 1.5rem;
-        }
+      .sidebar-scroll::-webkit-scrollbar-thumb {
+        background-color: #4a5568;
+        border-radius: 4px;
       }
     </style>
   </head>
-  <body>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="#intro">Introdução</a></li>
-        <li><a href="#pre-requisitos">Pré-requisitos</a></li>
-        <li><a href="#parte1">Começar do Zero</a></li>
-        <li><a href="#parte2">Conectar ao Remoto</a></li>
-        <li><a href="#parte3">Clonar Remoto</a></li>
-        <li><a href="#github-pages">Publicar Página</a></li>
-        <li><a href="#resumo">Resumo</a></li>
-      </ul>
-    </nav>
-
-    <div class="container">
-      <header>
-        <h1>Tutorial: Criar um Repositório Local e Conectar ao GitHub</h1>
-        <p>Um guia passo a passo para iniciar os seus projetos com Git.</p>
-      </header>
-
-      <main>
-        <section id="intro">
-          <h2>Introdução</h2>
-          <p>
-            Este tutorial explica de forma clara como criar um repositório Git
-            no seu computador (local) e como conectá-lo a um repositório remoto
-            no GitHub. Este é um fluxo de trabalho fundamental para qualquer
-            programador.
-          </p>
-          <p>A ideia central é que existem dois "locais":</p>
-          <ul>
+  <body class="bg-gray-900 text-gray-300">
+    <div class="flex">
+      <!-- Menu Lateral -->
+      <aside
+        class="w-64 h-screen sticky top-0 bg-gray-800 p-6 flex-shrink-0 hidden lg:flex flex-col sidebar-scroll overflow-y-auto"
+      >
+        <h3 class="text-xl font-bold text-white mb-6">Navegação</h3>
+        <nav>
+          <ul class="space-y-2">
             <li>
-              <strong>Repositório Local:</strong> Uma pasta no seu computador
-              onde o Git está a "observar" as alterações nos ficheiros.
+              <a
+                href="#intro"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Introdução</a
+              >
             </li>
             <li>
-              <strong>Repositório Remoto:</strong> Um espaço nos servidores do
-              GitHub onde o seu código fica guardado, servindo como backup e
-              permitindo a colaboração.
+              <a
+                href="#pre-requisitos"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Pré-requisitos</a
+              >
+            </li>
+            <li>
+              <a
+                href="#parte1"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Começar do Zero</a
+              >
+            </li>
+            <li>
+              <a
+                href="#parte2"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Conectar ao Remoto</a
+              >
+            </li>
+            <li>
+              <a
+                href="#parte3"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Clonar Remoto</a
+              >
+            </li>
+            <li>
+              <a
+                href="#github-pages"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Publicar Página</a
+              >
+            </li>
+            <li>
+              <a
+                href="#ver-historico"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Ver Histórico (CLI)</a
+              >
+            </li>
+            <li>
+              <a
+                href="#voltar-atras"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Voltar Atrás (CLI)</a
+              >
+            </li>
+            <li>
+              <a
+                href="#github-ui"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Interface GitHub</a
+              >
+            </li>
+            <li>
+              <a
+                href="#resumo"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Resumo</a
+              >
             </li>
           </ul>
-        </section>
+        </nav>
+      </aside>
 
-        <section id="pre-requisitos">
-          <h2>Pré-requisitos</h2>
-          <p>Antes de começar, garanta que tem o seguinte:</p>
-          <ol>
-            <li>
-              <strong>Git Instalado:</strong> Se não tiver, pode instalá-lo no
-              seu sistema. No Ubuntu/Debian:
-              <pre><code>sudo apt update && sudo apt install git</code></pre>
-            </li>
-            <li>
-              <strong>Conta no GitHub:</strong> Uma conta gratuita em
-              <a href="https://github.com" target="_blank">GitHub.com</a>.
-            </li>
-            <li>
-              <strong>Git Configurado:</strong> Configure o seu nome de
-              utilizador e email no Git com os seguintes comandos no terminal:
-              <pre><code>git config --global user.name "O Seu Nome"
-git config --global user.email "o.seu.email@exemplo.com"</code></pre>
-            </li>
-          </ol>
-        </section>
+      <!-- Conteúdo Principal -->
+      <div class="flex-1 min-w-0">
+        <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+          <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+              Guia Completo de Git e GitHub
+            </h1>
+            <p class="text-lg text-gray-400">
+              Um guia passo a passo para iniciar e gerir os seus projetos.
+            </p>
+          </header>
 
-        <section id="parte1">
-          <h2>Parte 1: Começar um Projeto do Zero (Local)</h2>
+          <main>
+            <section id="intro" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">Introdução</h2>
+              <p class="mt-4">
+                Este tutorial explica de forma clara como criar um repositório
+                Git no seu computador (local) e como conectá-lo a um repositório
+                remoto no GitHub. Este é um fluxo de trabalho fundamental para
+                qualquer programador.
+              </p>
+              <p class="mt-4">A ideia central é que existem dois "locais":</p>
+              <ul class="list-disc list-inside space-y-2 mt-4">
+                <li>
+                  <strong>Repositório Local:</strong> Uma pasta no seu
+                  computador onde o Git está a "observar" as alterações nos
+                  ficheiros.
+                </li>
+                <li>
+                  <strong>Repositório Remoto:</strong> Um espaço nos servidores
+                  do GitHub onde o seu código fica guardado, servindo como
+                  backup e permitindo a colaboração.
+                </li>
+              </ul>
+            </section>
 
-          <h3>Passo 1: Criar uma pasta para o projeto</h3>
-          <p>
-            Abra o terminal e crie uma nova pasta para o seu projeto, depois
-            navegue para dentro dela.
-          </p>
-          <pre><code># Cria uma nova pasta chamada 'meu-primeiro-repo'
+            <section id="pre-requisitos" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">Pré-requisitos</h2>
+              <p class="mt-4">Antes de começar, garanta que tem o seguinte:</p>
+              <ol class="list-decimal list-inside space-y-3 mt-4">
+                <li>
+                  <strong>Git Instalado:</strong> Se não tiver, pode instalá-lo
+                  no seu sistema. No Ubuntu/Debian:
+                  <pre
+                    class="code-block mt-2"
+                  ><code>sudo apt update && sudo apt install git</code></pre>
+                </li>
+                <li>
+                  <strong>Conta no GitHub:</strong> Uma conta gratuita em
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    class="text-blue-400 hover:underline"
+                    >GitHub.com</a
+                  >.
+                </li>
+                <li>
+                  <strong>Git Configurado:</strong> Configure o seu nome de
+                  utilizador e email no Git:
+                  <pre
+                    class="code-block mt-2"
+                  ><code>git config --global user.name <span class="string">"O Seu Nome"</span>
+git config --global user.email <span class="string">"o.seu.email@exemplo.com"</span></code></pre>
+                </li>
+              </ol>
+            </section>
+
+            <section id="parte1" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Parte 1: Começar um Projeto do Zero (Local)
+              </h2>
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 1: Criar uma pasta para o projeto
+              </h3>
+              <p class="mt-2">
+                Abra o terminal e crie uma nova pasta para o seu projeto, depois
+                navegue para dentro dela.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Cria uma nova pasta chamada 'meu-primeiro-repo'</span>
 mkdir meu-primeiro-repo
 
-# Entra na pasta que acabou de criar
+<span class="comment"># Entra na pasta que acabou de criar</span>
 cd meu-primeiro-repo</code></pre>
 
-          <h3>Passo 2: Iniciar o Git na pasta</h3>
-          <p>
-            Este comando "cria" o repositório local, adicionando uma pasta
-            oculta <code>.git</code> para monitorizar as alterações.
-          </p>
-          <pre><code>git init</code></pre>
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 2: Iniciar o Git na pasta
+              </h3>
+              <p class="mt-2">
+                Este comando "cria" o repositório local, adicionando uma pasta
+                oculta <code class="command">.git</code> para monitorizar as
+                alterações.
+              </p>
+              <pre class="code-block mt-2"><code>git init</code></pre>
 
-          <h3>Passo 3: Criar e Adicionar os seus primeiros ficheiros</h3>
-          <p>
-            Vamos criar um ficheiro <code>README.md</code> de exemplo e depois
-            adicioná-lo à "staging area" (área de preparação) do Git.
-          </p>
-          <pre><code># Cria um ficheiro README.md com um título dentro
-echo "# O Meu Primeiro Repositório" > README.md
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 3: Criar e Adicionar os seus primeiros ficheiros
+              </h3>
+              <p class="mt-2">
+                Vamos criar um ficheiro <code class="command">README.md</code> e
+                adicioná-lo à "staging area" (área de preparação) do Git.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Cria um ficheiro README.md com um título dentro</span>
+echo <span class="string">"# O Meu Primeiro Repositório"</span> > README.md
 
-# Adiciona o ficheiro à 'staging area'
+<span class="comment"># Adiciona o ficheiro à 'staging area'</span>
 git add README.md</code></pre>
 
-          <h3>Passo 4: Fazer o "Commit" das alterações</h3>
-          <p>
-            Um "commit" é um ponto de salvaguarda no histórico do seu projeto.
-            Vamos guardar as alterações que estão na staging area com uma
-            mensagem descritiva.
-          </p>
-          <pre><code>git commit -m "Commit inicial: Adiciona o ficheiro README"</code></pre>
-          <p>
-            Neste ponto, o seu repositório local está criado e já tem um registo
-            no histórico.
-          </p>
-        </section>
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 4: Fazer o "Commit" das alterações
+              </h3>
+              <p class="mt-2">
+                Um "commit" é um ponto de salvaguarda no histórico do seu
+                projeto. Vamos guardar as alterações que estão na staging area
+                com uma mensagem descritiva.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>git commit -m <span class="string">"Commit inicial: Adiciona o ficheiro README"</span></code></pre>
+              <p class="mt-4">
+                Neste ponto, o seu repositório local está criado e já tem um
+                registo no histórico.
+              </p>
+            </section>
 
-        <section id="parte2">
-          <h2>Parte 2: Conectar o seu Projeto Local ao GitHub</h2>
+            <section id="parte2" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Parte 2: Conectar o seu Projeto Local ao GitHub
+              </h2>
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 1: Criar um novo repositório no GitHub
+              </h3>
+              <ol class="list-decimal list-inside space-y-2 mt-2">
+                <li>
+                  Aceda à sua conta no
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    class="text-blue-400 hover:underline"
+                    >GitHub.com</a
+                  >.
+                </li>
+                <li>
+                  No canto superior direito, clique no ícone
+                  <strong>+</strong> e selecione
+                  <strong>"New repository"</strong>.
+                </li>
+                <li>
+                  Dê um nome ao repositório (ex:
+                  <code class="command">meu-primeiro-repo</code>).
+                </li>
+                <li>
+                  <strong>MUITO IMPORTANTE:</strong> Deixe as caixas "Add a
+                  README file", "Add .gitignore" e "Choose a license"
+                  <strong>desmarcadas</strong>. O repositório deve começar vazio
+                  para evitar conflitos.
+                </li>
+                <li>Clique em <strong>"Create repository"</strong>.</li>
+              </ol>
 
-          <h3>Passo 1: Criar um novo repositório no GitHub</h3>
-          <ol>
-            <li>
-              Aceda à sua conta no
-              <a href="https://github.com" target="_blank">GitHub.com</a>.
-            </li>
-            <li>
-              No canto superior direito, clique no ícone <strong>+</strong> e
-              selecione <strong>"New repository"</strong>.
-            </li>
-            <li>
-              Dê um nome ao repositório (ex: <code>meu-primeiro-repo</code>).
-            </li>
-            <li>
-              <strong>MUITO IMPORTANTE:</strong> Deixe as caixas "Add a README
-              file", "Add .gitignore" e "Choose a license"
-              <strong>desmarcadas</strong>. O repositório deve começar vazio
-              para evitar conflitos.
-            </li>
-            <li>Clique em <strong>"Create repository"</strong>.</li>
-          </ol>
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 2: Conectar o seu repositório local ao remoto
+              </h3>
+              <p class="mt-2">
+                O GitHub irá mostrar-lhe uma página com comandos. Iremos usar os
+                da secção
+                <strong
+                  >"...or push an existing repository from the command
+                  line"</strong
+                >.
+              </p>
 
-          <h3>Passo 2: Conectar o seu repositório local ao remoto</h3>
-          <p>
-            O GitHub irá mostrar-lhe uma página com comandos. Iremos usar os
-            comandos da secção
-            <strong
-              >"...or push an existing repository from the command line"</strong
-            >.
-          </p>
-
-          <h4>1. Adicionar o endereço remoto</h4>
-          <p>
-            Este comando define um "apelido" (<code>origin</code>) para o URL do
-            seu repositório no GitHub.
-          </p>
-          <pre><code># Substitua o URL pelo URL do seu repositório
+              <h4 class="text-xl font-semibold text-white mt-4">
+                1. Adicionar o endereço remoto
+              </h4>
+              <p class="mt-2">
+                Este comando define um "apelido" (<code class="command"
+                  >origin</code
+                >) para o URL do seu repositório no GitHub.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Substitua o URL pelo URL do seu repositório</span>
 git remote add origin https://github.com/o-seu-username/meu-primeiro-repo.git</code></pre>
 
-          <h4>2. Renomear a branch principal para "main"</h4>
-          <p>Esta é uma convenção moderna e uma boa prática.</p>
-          <pre><code>git branch -M main</code></pre>
+              <h4 class="text-xl font-semibold text-white mt-4">
+                2. Renomear a branch principal para "main"
+              </h4>
+              <p class="mt-2">
+                Esta é uma convenção moderna e uma boa prática.
+              </p>
+              <pre class="code-block mt-2"><code>git branch -M main</code></pre>
 
-          <h4>3. Enviar o código (Push) para o GitHub</h4>
-          <p>
-            Este comando envia os seus commits locais para o repositório remoto
-            no GitHub.
-          </p>
-          <pre><code>git push -u origin main</code></pre>
-          <div class="note">
-            <p>
-              Poderá ser pedido para fazer login com as suas credenciais do
-              GitHub no terminal para autorizar esta ação.
-            </p>
-          </div>
-        </section>
+              <h4 class="text-xl font-semibold text-white mt-4">
+                3. Enviar o código (Push) para o GitHub
+              </h4>
+              <p class="mt-2">
+                Este comando envia os seus commits locais para o repositório
+                remoto no GitHub.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>git push -u origin main</code></pre>
+              <div
+                class="bg-gray-800 border-l-4 border-blue-400 p-4 rounded-r-lg my-6"
+              >
+                <p>
+                  Poderá ser pedido para fazer login com as suas credenciais do
+                  GitHub no terminal para autorizar esta ação.
+                </p>
+              </div>
+            </section>
 
-        <section id="parte3">
-          <h2>
-            Alternativa: Criar um Repositório Local a Partir de um Remoto (git
-            clone)
-          </h2>
-          <p>
-            Este é o cenário mais comum quando quer contribuir para um projeto
-            que já existe ou continuar a trabalhar no seu projeto noutro
-            computador.
-          </p>
-          <p>
-            O comando <code>git clone</code> automatiza o processo: descarrega o
-            projeto, cria o repositório local e configura a ligação ao remoto
-            (<code>origin</code>) automaticamente.
-          </p>
+            <section id="parte3" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Alternativa: Clonar um Repositório (git clone)
+              </h2>
+              <p class="mt-2">
+                Este é o cenário mais comum quando quer contribuir para um
+                projeto que já existe ou continuar a trabalhar no seu projeto
+                noutro computador.
+              </p>
+              <p class="mt-2">
+                O comando <code class="command">git clone</code> automatiza o
+                processo: descarrega o projeto, cria o repositório local e
+                configura a ligação ao remoto (<code class="command"
+                  >origin</code
+                >) automaticamente.
+              </p>
 
-          <h3>Passo 1: Encontrar e Copiar o URL do Repositório Remoto</h3>
-          <ol>
-            <li>Vá à página do repositório no GitHub que deseja clonar.</li>
-            <li>Clique no botão verde <strong>&lt;&gt; Code</strong>.</li>
-            <li>
-              Certifique-se que a aba <strong>HTTPS</strong> está selecionada e
-              copie o URL.
-            </li>
-          </ol>
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 1: Copiar o URL do Repositório Remoto
+              </h3>
+              <ol class="list-decimal list-inside space-y-2 mt-2">
+                <li>Vá à página do repositório no GitHub que deseja clonar.</li>
+                <li>Clique no botão verde <strong>&lt;&gt; Code</strong>.</li>
+                <li>
+                  Certifique-se que a aba <strong>HTTPS</strong> está
+                  selecionada e copie o URL.
+                </li>
+              </ol>
 
-          <h3>Passo 2: Clonar o Repositório no seu Computador</h3>
-          <p>
-            Abra o terminal na pasta onde quer que o projeto seja guardado (por
-            exemplo, na sua pasta <code>Documentos</code> ou
-            <code>Projetos</code>).
-          </p>
-          <pre><code># Cole o URL que copiou do GitHub
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 2: Clonar o Repositório
+              </h3>
+              <p class="mt-2">
+                Abra o terminal na pasta onde quer que o projeto seja guardado.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Cole o URL que copiou do GitHub</span>
 git clone https://github.com/nome-do-dono/nome-do-repo.git</code></pre>
-          <div class="note">
-            <p>
-              O Git irá criar uma nova pasta com o nome do repositório,
-              descarregar todos os ficheiros e todo o histórico de commits. Já
-              está pronto a trabalhar!
+              <div
+                class="bg-gray-800 border-l-4 border-blue-400 p-4 rounded-r-lg my-6"
+              >
+                <p>
+                  O Git irá criar uma nova pasta com o nome do repositório,
+                  descarregar todos os ficheiros e todo o histórico de commits.
+                  Já está pronto a trabalhar!
+                </p>
+              </div>
+            </section>
+
+            <section id="github-pages" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Bónus: Publicar com GitHub Pages
+              </h2>
+              <p class="mt-2">
+                O GitHub Pages é um serviço gratuito que permite hospedar um
+                site simples diretamente a partir do seu repositório. É perfeito
+                para portfólios, páginas de projetos ou documentação.
+              </p>
+
+              <div
+                class="bg-gray-800 border-l-4 border-blue-400 p-4 rounded-r-lg my-6"
+              >
+                <strong>Pré-requisito:</strong> Para que funcione, o seu
+                repositório deve ter um ficheiro chamado
+                <code class="command">index.html</code> na raiz do projeto.
+              </div>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 1: Ir às Definições
+              </h3>
+              <p class="mt-2">
+                Na página do seu repositório no GitHub, clique na aba
+                <strong>"Settings"</strong>.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 2: Secção "Pages"
+              </h3>
+              <p class="mt-2">
+                No menu lateral esquerdo, clique em <strong>"Pages"</strong>.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 3: Configurar a Fonte
+              </h3>
+              <p class="mt-2">
+                Na secção "Build and deployment", em "Source", selecione
+                <strong>"Deploy from a branch"</strong>.
+              </p>
+              <p class="mt-2">
+                Depois, em "Branch", selecione a branch
+                <code class="command">main</code> e a pasta
+                <code class="command">/(root)</code>. Clique em
+                <strong>"Save"</strong>.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 4: Visitar a Página
+              </h3>
+              <p class="mt-2">
+                O GitHub irá demorar um ou dois minutos a publicar o seu site.
+                Após esse tempo, a página irá recarregar e mostrar-lhe um link
+                com o endereço da sua nova página, algo como:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>https://o-seu-username.github.io/nome-do-repo/</code></pre>
+              <p class="mt-2">Parabéns! O seu projeto está agora online.</p>
+            </section>
+
+            <section id="ver-historico" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Ver o Histórico de Commits (git log)
+              </h2>
+              <p class="mt-2">
+                Esta é uma das operações mais úteis no Git. O comando
+                <code class="command">git log</code> tem várias opções para
+                formatar e filtrar a saída.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Formatos Populares
+              </h3>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Ver cada commit numa única linha (muito útil)</span>
+git log --oneline
+
+<span class="comment"># Ver um gráfico de branches</span>
+git log --graph --oneline
+
+<span class="comment"># Ver estatísticas dos ficheiros alterados</span>
+git log --stat</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Filtrar a Lista
+              </h3>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Ver os últimos 3 commits</span>
+git log -n 3
+
+<span class="comment"># Ver commits de um autor específico</span>
+git log --author=<span class="string">"Pedro Santos"</span>
+
+<span class="comment"># Ver o histórico de alterações de um ficheiro</span>
+git log -- src/database.js</code></pre>
+            </section>
+
+            <section id="voltar-atras" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Voltar a um Commit Anterior (CLI)
+              </h2>
+              <p class="mt-2">
+                É crucial entender as diferentes formas de o fazer. A escolha
+                depende do seu objetivo.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                1. Apenas para Inspeção:
+                <code class="command">git checkout</code>
+              </h3>
+              <p class="mt-2">
+                Para "viajar no tempo" e ver como o projeto estava num ponto
+                específico, sem o risco de perder trabalho. Para voltar ao
+                presente, use <code class="command">git checkout main</code>.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>git checkout 3b4c1a9</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                2. Reverter um Commit Público:
+                <code class="command">git revert</code>
+              </h3>
+              <p class="mt-2">
+                Se o commit já foi partilhado (<code class="command"
+                  >git push</code
+                >), esta é a forma mais segura. Em vez de apagar, cria um
+                <strong>novo commit</strong> que desfaz as alterações,
+                preservando o histórico.
+              </p>
+              <pre class="code-block mt-2"><code>git revert f3b2c1a</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                3. Desfazer Commits Locais:
+                <code class="command">git reset</code>
+              </h3>
+              <p class="mt-2">
+                <code class="command">git reset</code> move o ponteiro do seu
+                branch, <strong>reescrevendo o histórico</strong>. Use com muito
+                cuidado e apenas em commits que ainda não partilhou.
+              </p>
+              <div
+                class="bg-red-900 bg-opacity-40 border-l-4 border-red-500 p-4 rounded-r-lg my-6"
+              >
+                <strong>AVISO:</strong> A opção
+                <code class="command">--hard</code> apaga permanentemente todas
+                as alterações. Use apenas se tiver a certeza absoluta de que
+                quer descartar o trabalho.
+              </div>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Apaga permanentemente o trabalho feito após o commit f3b2c1a</span>
+git reset --hard f3b2c1a</code></pre>
+            </section>
+
+            <section id="github-ui" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Alternativa: Usando a Interface do GitHub
+              </h2>
+              <p class="mt-2">
+                A interface do site é ótima para visualizar o histórico e fazer
+                reversões de forma segura, sem precisar de memorizar comandos.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Visualizar o Histórico no Site
+              </h3>
+              <ol class="list-decimal list-inside space-y-2 mt-2">
+                <li>
+                  Na página do seu repositório, clique no link que diz
+                  <strong>"commits"</strong> (acima da lista de ficheiros).
+                </li>
+                <li>
+                  Pode clicar em cada commit para ver as alterações exatas.
+                </li>
+              </ol>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Reverter um Commit no Site
+              </h3>
+              <p class="mt-2">
+                Esta ação faz o equivalente a um
+                <code class="command">git revert</code>, preservando o
+                histórico.
+              </p>
+              <ol class="list-decimal list-inside space-y-2 mt-2">
+                <li>
+                  Navegue até à lista de commits e clique no que deseja
+                  reverter.
+                </li>
+                <li>
+                  Na página do commit, clique no botão com
+                  <strong>três pontinhos (...)</strong> e selecione
+                  <strong>"Revert"</strong>.
+                </li>
+                <li>
+                  O GitHub irá guiá-lo para criar um
+                  <strong>Pull Request (PR)</strong> com a reversão.
+                </li>
+                <li>
+                  Faça o <strong>merge do Pull Request</strong> para aplicar a
+                  alteração no branch principal.
+                </li>
+              </ol>
+            </section>
+
+            <section id="resumo" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Resumo do Fluxo de Trabalho Diário
+              </h2>
+              <p class="mt-2">
+                Após a configuração inicial, o seu processo diário será:
+              </p>
+              <ol class="list-decimal list-inside space-y-3 mt-4">
+                <li>
+                  Sincronize com o remoto (importante em equipa):
+                  <pre class="code-block mt-1"><code>git pull</code></pre>
+                </li>
+                <li>Trabalhe nos seus ficheiros (crie, edite, apague).</li>
+                <li>
+                  Adicione as alterações à staging area:
+                  <pre class="code-block mt-1"><code>git add .</code></pre>
+                </li>
+                <li>
+                  Faça o commit das alterações com uma mensagem:
+                  <pre
+                    class="code-block mt-1"
+                  ><code>git commit -m <span class="string">"Mensagem descritiva do que fiz"</span></code></pre>
+                </li>
+                <li>
+                  Envie as alterações para o GitHub:
+                  <pre class="code-block mt-1"><code>git push</code></pre>
+                </li>
+              </ol>
+            </section>
+          </main>
+
+          <footer class="text-center mt-12 pt-8 border-t border-gray-700">
+            <p class="text-gray-500">
+              Tutorial gerado para facilitar a aprendizagem de Git e GitHub.
             </p>
-          </div>
-        </section>
-
-        <!-- --- Nova Secção: GitHub Pages --- -->
-        <section id="github-pages">
-          <h2>
-            Bónus: Publicar o seu Repositório como uma Página Web (GitHub Pages)
-          </h2>
-          <p>
-            O GitHub Pages é um serviço gratuito que permite hospedar um site
-            simples diretamente a partir do seu repositório. É perfeito para
-            portfólios, páginas de projetos ou documentação.
-          </p>
-
-          <div class="note">
-            <strong>Pré-requisito:</strong> Para que funcione, o seu repositório
-            deve ter um ficheiro chamado <code>index.html</code> na raiz do
-            projeto. Este será o ficheiro principal da sua página.
-          </div>
-
-          <h3>Passo 1: Navegar para as Definições do Repositório</h3>
-          <p>
-            Na página do seu repositório no GitHub, clique na aba
-            <strong>"Settings"</strong> (Definições).
-          </p>
-
-          <h3>Passo 2: Ir para a Secção "Pages"</h3>
-          <p>No menu lateral esquerdo, clique em <strong>"Pages"</strong>.</p>
-
-          <h3>Passo 3: Configurar a Fonte de Publicação</h3>
-          <p>
-            Na secção "Build and deployment", em "Source", selecione
-            <strong>"Deploy from a branch"</strong>.
-          </p>
-          <p>
-            Depois, na secção "Branch", selecione a branch que contém o seu
-            código (normalmente <code>main</code>) e a pasta (deixe
-            <code>/(root)</code>). Clique em <strong>"Save"</strong>.
-          </p>
-
-          <h3>Passo 4: Visitar a sua Página</h3>
-          <p>
-            O GitHub irá demorar um ou dois minutos a construir e publicar o seu
-            site. Após esse tempo, a página irá recarregar e mostrar-lhe um link
-            verde com o endereço da sua nova página web, algo como:
-          </p>
-          <pre><code>https://o-seu-username.github.io/nome-do-repo/</code></pre>
-          <p>
-            Parabéns! O seu projeto está agora online e acessível a qualquer
-            pessoa.
-          </p>
-        </section>
-
-        <section id="resumo">
-          <h2>Resumo do Fluxo de Trabalho Diário</h2>
-          <p>
-            Após a configuração inicial (seja a começar do zero ou a clonar), o
-            seu processo diário será:
-          </p>
-          <ol>
-            <li>
-              Sincronize o seu repositório local com as últimas alterações do
-              remoto (importante se trabalhar em equipa):
-              <pre><code>git pull</code></pre>
-            </li>
-            <li>Trabalhe nos seus ficheiros (crie, edite, apague).</li>
-            <li>
-              Adicione as alterações à staging area:
-              <pre><code>git add .</code></pre>
-            </li>
-            <li>
-              Faça o commit das alterações com uma mensagem:
-              <pre><code>git commit -m "Mensagem descritiva do que fiz"</code></pre>
-            </li>
-            <li>
-              Envie as alterações para o GitHub:
-              <pre><code>git push</code></pre>
-            </li>
-          </ol>
-        </section>
-      </main>
-
-      <footer>
-        <p>Tutorial gerado para facilitar a aprendizagem de Git e GitHub.</p>
-      </footer>
+          </footer>
+        </div>
+      </div>
     </div>
   </body>
 </html>
