@@ -558,13 +558,22 @@ git push --set-upstream origin adicionar-pagina-contacto</code></pre>
 git merge adicionar-pagina-contacto</code></pre>
                 </li>
                 <li>
-                  <strong>Limpeza:</strong> Após o merge, o branch de
-                  funcionalidade já não é necessário e pode (e deve) ser apagado
-                  para manter o repositório organizado.
+                  <strong>Limpeza Local:</strong> Após o merge, o branch de
+                  funcionalidade já não é necessário localmente e pode ser
+                  apagado para manter o seu repositório organizado.
                   <pre
                     class="code-block mt-2"
                   ><code><span class="comment"># Apaga o branch localmente</span>
 git branch -d adicionar-pagina-contacto</code></pre>
+                </li>
+                <li>
+                  <strong>Limpeza Remota:</strong> Apagar o branch localmente
+                  não o remove do GitHub. É uma boa prática também o apagar do
+                  repositório remoto para evitar acumular branches antigos.
+                  <pre
+                    class="code-block mt-2"
+                  ><code><span class="comment"># Apaga o branch no repositório remoto (origin)</span>
+git push origin --delete adicionar-pagina-contacto</code></pre>
                 </li>
               </ol>
             </section>
