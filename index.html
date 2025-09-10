@@ -437,45 +437,62 @@ git remote add origin https://github.com/o-seu-username/meu-primeiro-repo.git</c
                 Trabalhar com Branches (Ramos)
               </h2>
               <p class="mt-2">
-                Um branch é como uma linha do tempo paralela do seu projeto. O
-                branch principal (<code class="command">main</code>) é a versão
-                oficial e estável. Para adicionar novas funcionalidades ou
-                corrigir bugs sem arriscar a estabilidade do projeto principal,
-                você cria um novo branch.
+                Branches são a superpotência do Git. Pense no branch principal
+                (<code class="command">main</code>) como o tronco estável de uma
+                árvore. Para qualquer nova funcionalidade, correção de bug ou
+                experimentação, você cria um novo branch (um ramo) para
+                trabalhar em total isolamento, sem afetar a versão principal do
+                projeto.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Ciclo de Vida de um Branch
+                O Ciclo de Vida de um Branch
               </h3>
-              <ol class="list-decimal list-inside space-y-3 mt-4">
+              <ol class="list-decimal list-inside space-y-4 mt-4">
                 <li>
-                  <strong>Criar e Mudar para o Branch:</strong> Crie uma cópia
-                  do seu projeto para trabalhar em isolamento.
+                  <strong>Criar um novo Branch:</strong> Crie um branch com um
+                  nome descritivo a partir do <code class="command">main</code>.
                   <pre
                     class="code-block mt-2"
                   ><code><span class="comment"># Cria um novo branch e muda para ele num só passo</span>
-git checkout -b minha-nova-funcionalidade</code></pre>
+git checkout -b adicionar-pagina-contacto</code></pre>
                 </li>
                 <li>
                   <strong>Trabalhar e Fazer Commits:</strong> Faça todas as
-                  alterações e commits necessários neste novo branch. O branch
-                  <code class="command">main</code> permanece intacto.
+                  alterações e commits que precisar. O seu trabalho está seguro
+                  e isolado neste branch. O
+                  <code class="command">main</code> permanece limpo.
                   <pre class="code-block mt-2"><code>git add .
-git commit -m "Implementa a nova funcionalidade X"</code></pre>
+git commit -m "Cria a página de contacto com formulário"</code></pre>
+                </li>
+                <li>
+                  <strong>Publicar o Branch (se necessário):</strong> Se
+                  precisar que outros vejam o seu trabalho ou se quiser abrir um
+                  Pull Request, tem de enviar o seu novo branch para o GitHub.
+                  <pre
+                    class="code-block mt-2"
+                  ><code><span class="comment"># Envia o branch para o repositório remoto (origin) e cria uma ligação</span>
+git push --set-upstream origin adicionar-pagina-contacto</code></pre>
+                  <p class="mt-2 text-sm text-gray-400">
+                    Dica: Da próxima vez que fizer um push a partir deste
+                    branch, só precisa de <code class="command">git push</code>.
+                  </p>
                 </li>
                 <li>
                   <strong>Juntar de volta ao Principal (Merge):</strong> Quando
-                  a funcionalidade estiver pronta, volte ao branch principal e
-                  junte as alterações.
+                  o trabalho estiver concluído e testado, volte ao branch
+                  principal e junte as alterações do seu branch.
                   <pre class="code-block mt-2"><code>git checkout main
-git merge minha-nova-funcionalidade</code></pre>
+git merge adicionar-pagina-contacto</code></pre>
                 </li>
                 <li>
-                  <strong>Limpeza:</strong> Depois de juntar, o branch já não é
-                  necessário e pode ser apagado.
+                  <strong>Limpeza:</strong> Após o merge, o branch de
+                  funcionalidade já não é necessário e pode (e deve) ser apagado
+                  para manter o repositório organizado.
                   <pre
                     class="code-block mt-2"
-                  ><code>git branch -d minha-nova-funcionalidade</code></pre>
+                  ><code><span class="comment"># Apaga o branch localmente</span>
+git branch -d adicionar-pagina-contacto</code></pre>
                 </li>
               </ol>
             </section>
@@ -485,46 +502,47 @@ git merge minha-nova-funcionalidade</code></pre>
                 Colaboração: Fork, Clone e Pull Requests
               </h2>
               <p class="mt-2">
-                Este é o fluxo de trabalho padrão para contribuir para projetos,
-                especialmente em open-source, onde você não tem permissão para
-                escrever diretamente no repositório principal.
+                Este é o fluxo de trabalho essencial para contribuir para
+                projetos em equipa ou open-source, especialmente quando não tem
+                permissão para escrever diretamente no repositório principal.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 1: Fork - A Sua Cópia Pessoal
+                Passo 1: Fork – A Sua Cópia Pessoal no GitHub
               </h3>
               <p class="mt-2">
-                Um <code class="command">fork</code> é uma cópia pessoal de um
-                repositório de outro utilizador que fica na sua própria conta do
-                GitHub. Clique no botão "Fork" na página do repositório original
-                para criar a sua cópia.
+                Um <code class="command">fork</code> é uma cópia de um
+                repositório que fica na sua própria conta do GitHub. Pense nele
+                como a sua "sandbox" pessoal. Você pode fazer as alterações que
+                quiser no seu fork sem afetar o projeto original. Para o criar,
+                basta clicar no botão "Fork" na página do repositório original.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 2: Clone - A Cópia Local
+                Passo 2: Clone – A Cópia no Seu Computador
               </h3>
               <p class="mt-2">
-                Depois de fazer o fork, você clona (<code class="command"
+                Depois de ter o seu fork, você clona (<code class="command"
                   >git clone</code
-                >) <strong>o seu fork</strong> (a sua cópia pessoal) para o seu
-                computador, não o projeto original.
+                >) essa sua cópia pessoal para o seu computador para poder
+                trabalhar nos ficheiros.
               </p>
               <pre
                 class="code-block mt-2"
               ><code>git clone https://github.com/o-seu-username/nome-do-repo-forked.git</code></pre>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 3: Pull Request (PR) - Propor Alterações
+                Passo 3: Pull Request (PR) – Propor as Suas Alterações
               </h3>
               <p class="mt-2">
-                Depois de fazer as alterações localmente (num novo branch) e
-                enviá-las para o seu fork (<code class="command">git push</code
-                >), você pode criar um
+                Depois de fazer as alterações localmente (num novo branch,
+                claro!), você envia-as para o <strong>seu fork</strong> no
+                GitHub. A partir daí, o GitHub permite-lhe abrir um
                 <code class="command">Pull Request</code>. Este é um pedido
-                formal ao dono do projeto original para que ele incorpore as
-                suas alterações. A partir daqui, inicia-se uma discussão e
-                revisão do código até que, se for aceite, o seu trabalho passe a
-                fazer parte do projeto original.
+                formal ao dono do projeto original para que ele "puxe" (pull) e
+                junte (merge) as suas alterações ao projeto principal. Um bom PR
+                tem um título claro e uma descrição detalhada do que foi feito e
+                porquê, iniciando um processo de revisão e discussão.
               </p>
             </section>
 
@@ -533,33 +551,42 @@ git merge minha-nova-funcionalidade</code></pre>
                 Resolver Conflitos de Merge
               </h2>
               <p class="mt-2">
-                Um conflito acontece quando o Git não consegue juntar dois
-                branches automaticamente porque ambos alteraram a mesma linha do
-                mesmo ficheiro. O Git para e pede-lhe para decidir qual versão
-                manter.
+                Um conflito acontece quando o Git tenta juntar dois branches que
+                alteraram as <strong>mesmas linhas do mesmo ficheiro</strong> de
+                formas diferentes. O Git não consegue adivinhar qual é a versão
+                correta, por isso pára e pede a sua ajuda.
               </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Como Identificar e Resolver
+              </h3>
               <p class="mt-2">
-                Ao abrir o ficheiro em conflito, verá marcadores como:
+                Ao abrir o ficheiro em conflito, o Git insere marcadores visuais
+                para lhe mostrar as duas versões:
               </p>
               <pre
                 class="code-block mt-2"
-              ><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+              ><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD <span class="comment">// Início da versão do seu branch atual (para onde está a fazer merge)</span>
 &lt;h1&gt;Bem-vindo ao Portfolio Profissional&lt;/h1&gt;
-=======
+======= <span class="comment">// Separa as duas versões em conflito</span>
 &lt;h1&gt;O Fantástico Portfolio de Pedro&lt;/h1&gt;
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/mudar-titulo</code></pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/mudar-titulo <span class="comment">// Fim da versão do branch que está a tentar juntar</span></code></pre>
               <p class="mt-2">
-                A sua tarefa é editar o ficheiro, remover os marcadores (<code
+                A sua tarefa é ser o editor: apague os marcadores (<code
                   class="command"
                   >&lt;&lt;&lt;</code
                 >, <code class="command">===</code>,
-                <code class="command">&gt;&gt;&gt;</code>) e deixar o código
-                final como deseja. Depois de guardar, diga ao Git que o conflito
-                está resolvido:
+                <code class="command">&gt;&gt;&gt;</code>) e edite o código para
+                que fique com a versão final que deseja (pode manter uma, outra
+                ou combinar as duas). Depois de guardar o ficheiro, finalize o
+                processo:
               </p>
               <pre
                 class="code-block mt-2"
-              ><code>git add nome-do-ficheiro-resolvido.html
+              ><code><span class="comment"># Diga ao Git que o ficheiro foi resolvido</span>
+git add nome-do-ficheiro-resolvido.html
+
+<span class="comment"># Crie um commit para concluir o merge</span>
 git commit</code></pre>
             </section>
 
