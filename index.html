@@ -66,7 +66,7 @@
     <div class="flex">
       <!-- Menu Lateral -->
       <aside
-        class="w-64 h-screen sticky top-0 bg-gray-800 p-6 flex-shrink-0 hidden lg:flex flex-col sidebar-scroll overflow-y-auto"
+        class="w-72 h-screen sticky top-0 bg-gray-800 p-6 flex-shrink-0 hidden lg:flex flex-col sidebar-scroll overflow-y-auto"
       >
         <h3 class="text-xl font-bold text-white mb-6">Navegação</h3>
         <nav>
@@ -101,6 +101,13 @@
             </li>
             <li>
               <a
+                href="#gitignore"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Ignorar Ficheiros (.gitignore)</a
+              >
+            </li>
+            <li>
+              <a
                 href="#parte2"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Conectar ao Remoto</a
@@ -115,6 +122,20 @@
             </li>
             <li>
               <a
+                href="#stash"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Guardar Alterações (stash)</a
+              >
+            </li>
+            <li>
+              <a
+                href="#ver-branches"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Ver Branches</a
+              >
+            </li>
+            <li>
+              <a
                 href="#colaboracao"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Colaboração: Fork & PRs</a
@@ -125,6 +146,13 @@
                 href="#conflitos"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Resolver Conflitos</a
+              >
+            </li>
+            <li>
+              <a
+                href="#rebase"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Avançado: Rebase</a
               >
             </li>
             <li>
@@ -146,6 +174,13 @@
                 href="#github-ui"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Interface GitHub</a
+              >
+            </li>
+            <li>
+              <a
+                href="#gestao-projeto"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Gestão de Projeto</a
               >
             </li>
             <li>
@@ -344,6 +379,43 @@ git add README.md</code></pre>
               </p>
             </section>
 
+            <section id="gitignore" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Ignorar Ficheiros com .gitignore
+              </h2>
+              <p class="mt-2">
+                Num projeto real, existem muitos ficheiros que não devem ser
+                guardados no histórico do Git. Exemplos incluem dependências
+                (como a pasta <code class="command">node_modules</code>),
+                ficheiros de configuração do seu editor, segredos (chaves de
+                API), ou ficheiros de compilação.
+              </p>
+              <p class="mt-2">
+                Para dizer ao Git para ignorar estes ficheiros, criamos um
+                ficheiro especial na raiz do projeto chamado
+                <code class="command">.gitignore</code>.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Ficheiros de log</span>
+*.log
+
+<span class="comment"># Dependências do Node.js</span>
+node_modules/
+
+<span class="comment"># Ficheiros de ambiente com segredos</span>
+.env
+
+<span class="comment"># Ficheiros do sistema operativo</span>
+.DS_Store
+Thumbs.db</code></pre>
+              <p class="mt-2">
+                Cada linha no <code class="command">.gitignore</code> é um
+                padrão de ficheiro ou pasta a ser ignorado. É uma das primeiras
+                coisas que deve criar num novo projeto.
+              </p>
+            </section>
+
             <section id="parte2" class="mb-12 card p-8 rounded-lg">
               <h2 class="text-3xl font-bold text-white">
                 Parte 2: Conectar o seu Projeto Local ao GitHub
@@ -497,6 +569,83 @@ git branch -d adicionar-pagina-contacto</code></pre>
               </ol>
             </section>
 
+            <section id="stash" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Guardar Alterações Temporariamente (git stash)
+              </h2>
+              <p class="mt-2">
+                Imagine que está a meio de uma alteração complexa, mas precisa
+                de mudar urgentemente de branch para corrigir um bug. Não pode
+                fazer commit de código inacabado. É aqui que
+                <code class="command">git stash</code> se torna um
+                "salva-vidas".
+              </p>
+              <p class="mt-2">
+                O stash guarda as suas modificações numa "prateleira"
+                temporária, deixando a sua área de trabalho limpa para poder
+                mudar de branch.
+              </p>
+              <ol class="list-decimal list-inside space-y-4 mt-4">
+                <li>
+                  <strong>Guardar as alterações:</strong>
+                  <pre
+                    class="code-block mt-2"
+                  ><code><span class="comment"># Guarda as alterações não commitadas na "prateleira"</span>
+git stash</code></pre>
+                </li>
+                <li>
+                  <strong>Mudar de branch e trabalhar:</strong> Agora a sua área
+                  está limpa. Pode fazer
+                  <code class="command">git checkout outro-branch</code>,
+                  corrigir o bug, e voltar.
+                </li>
+                <li>
+                  <strong>Recuperar as alterações:</strong> Quando voltar ao seu
+                  branch original, pode recuperar o que guardou.
+                  <pre
+                    class="code-block mt-2"
+                  ><code><span class="comment"># Aplica o último stash e remove-o da lista</span>
+git stash pop</code></pre>
+                </li>
+              </ol>
+            </section>
+
+            <section id="ver-branches" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Ver Branches Existentes
+              </h2>
+              <p class="mt-2">
+                Ver os branches existentes é uma tarefa comum para ter uma visão
+                geral do projeto e saber em que a equipa está a trabalhar.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                1. Ver Branches Locais
+              </h3>
+              <p class="mt-2">
+                Mostra os branches que existem no seu computador. O branch atual
+                é marcado com <code class="command">*</code>.
+              </p>
+              <pre class="code-block mt-2"><code>git branch</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                2. Ver Branches Remotos
+              </h3>
+              <p class="mt-2">
+                Mostra os branches que existem no repositório remoto (ex:
+                GitHub).
+              </p>
+              <pre class="code-block mt-2"><code>git branch -r</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                3. Ver Todos os Branches (Locais e Remotos)
+              </h3>
+              <p class="mt-2">
+                A opção mais completa, que combina as duas listas anteriores.
+              </p>
+              <pre class="code-block mt-2"><code>git branch -a</code></pre>
+            </section>
+
             <section id="colaboracao" class="mb-12 card p-8 rounded-lg">
               <h2 class="text-3xl font-bold text-white">
                 Colaboração: Fork, Clone e Pull Requests
@@ -588,6 +737,44 @@ git add nome-do-ficheiro-resolvido.html
 
 <span class="comment"># Crie um commit para concluir o merge</span>
 git commit</code></pre>
+            </section>
+
+            <section id="rebase" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Avançado: Sincronizar com `git rebase`
+              </h2>
+              <p class="mt-2">
+                O <code class="command">git rebase</code> é uma alternativa ao
+                <code class="command">git merge</code> para integrar alterações
+                de um branch noutro. A principal diferença é que o
+                <code class="command">rebase</code>
+                <strong>reescreve a história dos commits</strong> para criar um
+                histórico linear e mais limpo.
+              </p>
+              <p class="mt-2">
+                Imagine que, enquanto trabalhava no seu branch, o branch
+                <code class="command">main</code> recebeu novas atualizações. Em
+                vez de criar um "commit de merge" que junta as duas histórias, o
+                <code class="command">rebase</code> move o seu branch para que
+                ele comece no final do
+                <code class="command">main</code> atualizado, aplicando os seus
+                commits um a um.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># No seu branch de funcionalidade, para sincronizar com as últimas alterações do main</span>
+git fetch origin main
+git rebase origin/main</code></pre>
+              <div
+                class="bg-red-900 bg-opacity-40 border-l-4 border-red-500 p-4 rounded-r-lg my-6"
+              >
+                <strong>AVISO:</strong> Nunca faça
+                <code class="command">rebase</code> em branches
+                públicos/partilhados que outras pessoas possam estar a usar.
+                Como ele reescreve a história, pode causar grandes problemas
+                para os seus colegas. Use-o principalmente para limpar o seu
+                histórico em branches locais antes de o partilhar.
+              </div>
             </section>
 
             <section id="ver-historico" class="mb-12 card p-8 rounded-lg">
@@ -736,6 +923,56 @@ git reset --hard f3b2c1a</code></pre>
                   alteração no branch principal.
                 </li>
               </ol>
+            </section>
+
+            <section id="gestao-projeto" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Gestão de Projeto no GitHub
+              </h2>
+              <p class="mt-2">
+                O GitHub é mais do que um local para guardar código. É uma
+                plataforma completa de gestão de projetos.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Tags e Releases
+              </h3>
+              <p class="mt-2">
+                Uma "tag" é um marcador que aponta para um commit específico,
+                usado normalmente para marcar pontos importantes como versões de
+                lançamento (<code class="command">v1.0</code>,
+                <code class="command">v1.1</code>).
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Cria uma tag chamada v1.0 no commit atual</span>
+git tag -a v1.0 -m "Versão de Lançamento 1.0"
+
+<span class="comment"># Envia todas as suas tags para o GitHub</span>
+git push --tags</code></pre>
+              <p class="mt-2">
+                No GitHub, pode ir à secção "Releases" e criar uma nova
+                "release" a partir de uma tag, adicionando notas de lançamento e
+                ficheiros compilados (executáveis, por exemplo).
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                GitHub Issues
+              </h3>
+              <p class="mt-2">
+                As "Issues" são o centro de discussão e planeamento de um
+                projeto. Use-as para:
+              </p>
+              <ul class="list-disc list-inside space-y-2 mt-2">
+                <li>Reportar bugs.</li>
+                <li>Sugerir novas funcionalidades.</li>
+                <li>Fazer perguntas e discutir ideias.</li>
+                <li>Organizar tarefas e atribuí-las a membros da equipa.</li>
+              </ul>
+              <p class="mt-2">
+                Pode ligar commits e Pull Requests a issues, criando um fluxo de
+                trabalho rastreável (ex: "Este commit corrige o bug #42").
+              </p>
             </section>
 
             <section id="github-pages" class="mb-12 card p-8 rounded-lg">
