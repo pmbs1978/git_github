@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guia Completo de Git e GitHub: Do Básico à Gestão de Commits</title>
+    <title>Guia Completo de Git e GitHub: Do Básico à Colaboração</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
@@ -80,6 +80,13 @@
             </li>
             <li>
               <a
+                href="#conceitos"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >O Que São?</a
+              >
+            </li>
+            <li>
+              <a
                 href="#pre-requisitos"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Pré-requisitos</a
@@ -101,16 +108,23 @@
             </li>
             <li>
               <a
-                href="#parte3"
+                href="#branches"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
-                >Clonar Remoto</a
+                >Trabalhar com Branches</a
               >
             </li>
             <li>
               <a
-                href="#github-pages"
+                href="#colaboracao"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
-                >Publicar Página</a
+                >Colaboração: Fork & PRs</a
+              >
+            </li>
+            <li>
+              <a
+                href="#conflitos"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Resolver Conflitos</a
               >
             </li>
             <li>
@@ -136,6 +150,13 @@
             </li>
             <li>
               <a
+                href="#github-pages"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Publicar Página</a
+              >
+            </li>
+            <li>
+              <a
                 href="#resumo"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Resumo</a
@@ -153,7 +174,8 @@
               Guia Completo de Git e GitHub
             </h1>
             <p class="text-lg text-gray-400">
-              Um guia passo a passo para iniciar e gerir os seus projetos.
+              Um guia passo a passo para iniciar, gerir e colaborar nos seus
+              projetos.
             </p>
           </header>
 
@@ -163,8 +185,8 @@
               <p class="mt-4">
                 Este tutorial explica de forma clara como criar um repositório
                 Git no seu computador (local) e como conectá-lo a um repositório
-                remoto no GitHub. Este é um fluxo de trabalho fundamental para
-                qualquer programador.
+                remoto no GitHub. Dominar este fluxo de trabalho é fundamental
+                para qualquer programador.
               </p>
               <p class="mt-4">A ideia central é que existem dois "locais":</p>
               <ul class="list-disc list-inside space-y-2 mt-4">
@@ -179,6 +201,55 @@
                   backup e permitindo a colaboração.
                 </li>
               </ul>
+            </section>
+
+            <section id="conceitos" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                O Que São o Git e o GitHub?
+              </h2>
+              <p class="mt-4">
+                Muitas vezes, estes dois nomes são usados como sinónimos, mas
+                são duas coisas diferentes que trabalham em conjunto. É crucial
+                entender a distinção.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                O que é o Git?
+              </h3>
+              <p class="mt-2">
+                Pense no Git como um "gestor de histórico" para o seu código. É
+                um **Sistema de Controlo de Versões Distribuído** que instala no
+                seu computador. Ele guarda "fotografias" (chamadas
+                <code class="command">commits</code>) de cada alteração no seu
+                projeto, permitindo-lhe voltar atrás no tempo, ver quem alterou
+                o quê e quando. Acabaram-se os ficheiros como
+                <code class="command">versao_final_final.js</code>.
+              </p>
+              <p class="mt-2">
+                Em resumo:
+                <strong
+                  >Git é o software, a ferramenta que você usa localmente para
+                  gerir o histórico do seu código.</strong
+                >
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                O que é o GitHub?
+              </h3>
+              <p class="mt-2">
+                O GitHub é uma **plataforma de hospedagem na web** que utiliza o
+                Git. É o local remoto onde guarda os seus projetos
+                (repositórios) para ter um backup na nuvem e, mais importante,
+                para colaborar com outros programadores. O seu perfil no GitHub
+                funciona como um portfólio profissional.
+              </p>
+              <p class="mt-2">
+                Em resumo:
+                <strong
+                  >GitHub é o serviço, a plataforma online onde você guarda os
+                  seus repositórios Git para partilhar e colaborar.</strong
+                >
+              </p>
             </section>
 
             <section id="pre-requisitos" class="mb-12 card p-8 rounded-lg">
@@ -361,115 +432,135 @@ git remote add origin https://github.com/o-seu-username/meu-primeiro-repo.git</c
               </div>
             </section>
 
-            <section id="parte3" class="mb-12 card p-8 rounded-lg">
+            <section id="branches" class="mb-12 card p-8 rounded-lg">
               <h2 class="text-3xl font-bold text-white">
-                Alternativa: Clonar um Repositório (git clone)
+                Trabalhar com Branches (Ramos)
               </h2>
               <p class="mt-2">
-                Este é o cenário mais comum quando quer contribuir para um
-                projeto que já existe ou continuar a trabalhar no seu projeto
-                noutro computador.
-              </p>
-              <p class="mt-2">
-                O comando <code class="command">git clone</code> automatiza o
-                processo: descarrega o projeto, cria o repositório local e
-                configura a ligação ao remoto (<code class="command"
-                  >origin</code
-                >) automaticamente.
+                Um branch é como uma linha do tempo paralela do seu projeto. O
+                branch principal (<code class="command">main</code>) é a versão
+                oficial e estável. Para adicionar novas funcionalidades ou
+                corrigir bugs sem arriscar a estabilidade do projeto principal,
+                você cria um novo branch.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 1: Copiar o URL do Repositório Remoto
+                Ciclo de Vida de um Branch
               </h3>
-              <ol class="list-decimal list-inside space-y-2 mt-2">
-                <li>Vá à página do repositório no GitHub que deseja clonar.</li>
-                <li>Clique no botão verde <strong>&lt;&gt; Code</strong>.</li>
+              <ol class="list-decimal list-inside space-y-3 mt-4">
                 <li>
-                  Certifique-se que a aba <strong>HTTPS</strong> está
-                  selecionada e copie o URL.
+                  <strong>Criar e Mudar para o Branch:</strong> Crie uma cópia
+                  do seu projeto para trabalhar em isolamento.
+                  <pre
+                    class="code-block mt-2"
+                  ><code><span class="comment"># Cria um novo branch e muda para ele num só passo</span>
+git checkout -b minha-nova-funcionalidade</code></pre>
+                </li>
+                <li>
+                  <strong>Trabalhar e Fazer Commits:</strong> Faça todas as
+                  alterações e commits necessários neste novo branch. O branch
+                  <code class="command">main</code> permanece intacto.
+                  <pre class="code-block mt-2"><code>git add .
+git commit -m "Implementa a nova funcionalidade X"</code></pre>
+                </li>
+                <li>
+                  <strong>Juntar de volta ao Principal (Merge):</strong> Quando
+                  a funcionalidade estiver pronta, volte ao branch principal e
+                  junte as alterações.
+                  <pre class="code-block mt-2"><code>git checkout main
+git merge minha-nova-funcionalidade</code></pre>
+                </li>
+                <li>
+                  <strong>Limpeza:</strong> Depois de juntar, o branch já não é
+                  necessário e pode ser apagado.
+                  <pre
+                    class="code-block mt-2"
+                  ><code>git branch -d minha-nova-funcionalidade</code></pre>
                 </li>
               </ol>
-
-              <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 2: Clonar o Repositório
-              </h3>
-              <p class="mt-2">
-                Abra o terminal na pasta onde quer que o projeto seja guardado.
-              </p>
-              <pre
-                class="code-block mt-2"
-              ><code><span class="comment"># Cole o URL que copiou do GitHub</span>
-git clone https://github.com/nome-do-dono/nome-do-repo.git</code></pre>
-              <div
-                class="bg-gray-800 border-l-4 border-blue-400 p-4 rounded-r-lg my-6"
-              >
-                <p>
-                  O Git irá criar uma nova pasta com o nome do repositório,
-                  descarregar todos os ficheiros e todo o histórico de commits.
-                  Já está pronto a trabalhar!
-                </p>
-              </div>
             </section>
 
-            <section id="github-pages" class="mb-12 card p-8 rounded-lg">
+            <section id="colaboracao" class="mb-12 card p-8 rounded-lg">
               <h2 class="text-3xl font-bold text-white">
-                Bónus: Publicar com GitHub Pages
+                Colaboração: Fork, Clone e Pull Requests
               </h2>
               <p class="mt-2">
-                O GitHub Pages é um serviço gratuito que permite hospedar um
-                site simples diretamente a partir do seu repositório. É perfeito
-                para portfólios, páginas de projetos ou documentação.
-              </p>
-
-              <div
-                class="bg-gray-800 border-l-4 border-blue-400 p-4 rounded-r-lg my-6"
-              >
-                <strong>Pré-requisito:</strong> Para que funcione, o seu
-                repositório deve ter um ficheiro chamado
-                <code class="command">index.html</code> na raiz do projeto.
-              </div>
-
-              <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 1: Ir às Definições
-              </h3>
-              <p class="mt-2">
-                Na página do seu repositório no GitHub, clique na aba
-                <strong>"Settings"</strong>.
+                Este é o fluxo de trabalho padrão para contribuir para projetos,
+                especialmente em open-source, onde você não tem permissão para
+                escrever diretamente no repositório principal.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 2: Secção "Pages"
+                Passo 1: Fork - A Sua Cópia Pessoal
               </h3>
               <p class="mt-2">
-                No menu lateral esquerdo, clique em <strong>"Pages"</strong>.
+                Um <code class="command">fork</code> é uma cópia pessoal de um
+                repositório de outro utilizador que fica na sua própria conta do
+                GitHub. Clique no botão "Fork" na página do repositório original
+                para criar a sua cópia.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 3: Configurar a Fonte
+                Passo 2: Clone - A Cópia Local
               </h3>
               <p class="mt-2">
-                Na secção "Build and deployment", em "Source", selecione
-                <strong>"Deploy from a branch"</strong>.
-              </p>
-              <p class="mt-2">
-                Depois, em "Branch", selecione a branch
-                <code class="command">main</code> e a pasta
-                <code class="command">/(root)</code>. Clique em
-                <strong>"Save"</strong>.
-              </p>
-
-              <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 4: Visitar a Página
-              </h3>
-              <p class="mt-2">
-                O GitHub irá demorar um ou dois minutos a publicar o seu site.
-                Após esse tempo, a página irá recarregar e mostrar-lhe um link
-                com o endereço da sua nova página, algo como:
+                Depois de fazer o fork, você clona (<code class="command"
+                  >git clone</code
+                >) <strong>o seu fork</strong> (a sua cópia pessoal) para o seu
+                computador, não o projeto original.
               </p>
               <pre
                 class="code-block mt-2"
-              ><code>https://o-seu-username.github.io/nome-do-repo/</code></pre>
-              <p class="mt-2">Parabéns! O seu projeto está agora online.</p>
+              ><code>git clone https://github.com/o-seu-username/nome-do-repo-forked.git</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 3: Pull Request (PR) - Propor Alterações
+              </h3>
+              <p class="mt-2">
+                Depois de fazer as alterações localmente (num novo branch) e
+                enviá-las para o seu fork (<code class="command">git push</code
+                >), você pode criar um
+                <code class="command">Pull Request</code>. Este é um pedido
+                formal ao dono do projeto original para que ele incorpore as
+                suas alterações. A partir daqui, inicia-se uma discussão e
+                revisão do código até que, se for aceite, o seu trabalho passe a
+                fazer parte do projeto original.
+              </p>
+            </section>
+
+            <section id="conflitos" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Resolver Conflitos de Merge
+              </h2>
+              <p class="mt-2">
+                Um conflito acontece quando o Git não consegue juntar dois
+                branches automaticamente porque ambos alteraram a mesma linha do
+                mesmo ficheiro. O Git para e pede-lhe para decidir qual versão
+                manter.
+              </p>
+              <p class="mt-2">
+                Ao abrir o ficheiro em conflito, verá marcadores como:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&lt;h1&gt;Bem-vindo ao Portfolio Profissional&lt;/h1&gt;
+=======
+&lt;h1&gt;O Fantástico Portfolio de Pedro&lt;/h1&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/mudar-titulo</code></pre>
+              <p class="mt-2">
+                A sua tarefa é editar o ficheiro, remover os marcadores (<code
+                  class="command"
+                  >&lt;&lt;&lt;</code
+                >, <code class="command">===</code>,
+                <code class="command">&gt;&gt;&gt;</code>) e deixar o código
+                final como deseja. Depois de guardar, diga ao Git que o conflito
+                está resolvido:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>git add nome-do-ficheiro-resolvido.html
+git commit</code></pre>
             </section>
 
             <section id="ver-historico" class="mb-12 card p-8 rounded-lg">
@@ -618,6 +709,67 @@ git reset --hard f3b2c1a</code></pre>
                   alteração no branch principal.
                 </li>
               </ol>
+            </section>
+
+            <section id="github-pages" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Bónus: Publicar com GitHub Pages
+              </h2>
+              <p class="mt-2">
+                O GitHub Pages é um serviço gratuito que permite hospedar um
+                site simples diretamente a partir do seu repositório. É perfeito
+                para portfólios, páginas de projetos ou documentação.
+              </p>
+
+              <div
+                class="bg-gray-800 border-l-4 border-blue-400 p-4 rounded-r-lg my-6"
+              >
+                <strong>Pré-requisito:</strong> Para que funcione, o seu
+                repositório deve ter um ficheiro chamado
+                <code class="command">index.html</code> na raiz do projeto.
+              </div>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 1: Ir às Definições
+              </h3>
+              <p class="mt-2">
+                Na página do seu repositório no GitHub, clique na aba
+                <strong>"Settings"</strong>.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 2: Secção "Pages"
+              </h3>
+              <p class="mt-2">
+                No menu lateral esquerdo, clique em <strong>"Pages"</strong>.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 3: Configurar a Fonte
+              </h3>
+              <p class="mt-2">
+                Na secção "Build and deployment", em "Source", selecione
+                <strong>"Deploy from a branch"</strong>.
+              </p>
+              <p class="mt-2">
+                Depois, em "Branch", selecione a branch
+                <code class="command">main</code> e a pasta
+                <code class="command">/(root)</code>. Clique em
+                <strong>"Save"</strong>.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 4: Visitar a Página
+              </h3>
+              <p class="mt-2">
+                O GitHub irá demorar um ou dois minutos a publicar o seu site.
+                Após esse tempo, a página irá recarregar e mostrar-lhe um link
+                com o endereço da sua nova página, algo como:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>https://o-seu-username.github.io/nome-do-repo/</code></pre>
+              <p class="mt-2">Parabéns! O seu projeto está agora online.</p>
             </section>
 
             <section id="resumo" class="mb-12 card p-8 rounded-lg">
