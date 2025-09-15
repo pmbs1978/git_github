@@ -94,9 +94,30 @@
             </li>
             <li>
               <a
+                href="#auth-pat"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Autenticação (PAT)</a
+              >
+            </li>
+            <li>
+              <a
                 href="#parte1"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Começar do Zero</a
+              >
+            </li>
+            <li>
+              <a
+                href="#inspecionar-alteracoes"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Inspecionar Alterações</a
+              >
+            </li>
+            <li>
+              <a
+                href="#corrigir-erros"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Corrigir Erros Comuns</a
               >
             </li>
             <li>
@@ -325,6 +346,103 @@ git config --global user.email <span class="string">"o.seu.email@exemplo.com"</s
               </ol>
             </section>
 
+            <section id="auth-pat" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Resolver Erros de Autenticação com PAT
+              </h2>
+              <p class="mt-2">
+                Desde 2021, o GitHub já não aceita senhas para operações no
+                terminal (como <code class="command">git push</code>). É agora
+                obrigatório usar um
+                <strong>Personal Access Token (PAT)</strong>, que funciona como
+                uma senha mais segura e com permissões controladas.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                O Erro Comum
+              </h3>
+              <p class="mt-2">
+                Se tentar usar a sua senha antiga, provavelmente verá este erro:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>remote: Invalid username or token.
+fatal: Authentication failed for 'https://github.com/...'</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Como Criar e Usar um PAT
+              </h3>
+              <ol class="list-decimal list-inside space-y-3 mt-4">
+                <li>
+                  Faça login no GitHub, clique na sua foto de perfil →
+                  <strong>Settings</strong>.
+                </li>
+                <li>
+                  No menu esquerdo, vá a <strong>Developer settings</strong> →
+                  <strong>Personal access tokens</strong> →
+                  <strong>Tokens (classic)</strong>.
+                </li>
+                <li>
+                  Clique em <strong>Generate new token</strong> (e depois em
+                  "Generate new token (classic)").
+                </li>
+                <li>
+                  Dê um nome ao token (ex: "Terminal Ubuntu"), defina uma data
+                  de validade (ex: 90 dias) e, em <strong>Scopes</strong>,
+                  marque a caixa <strong>repo</strong>. Isto dá ao token
+                  permissão para aceder aos seus repositórios.
+                </li>
+                <li>
+                  Clique em <strong>Generate token</strong> e
+                  <strong>copie o token imediatamente</strong> para um local
+                  seguro. Ele não será mostrado novamente.
+                </li>
+                <li>
+                  Volte ao terminal. Da próxima vez que executar
+                  <code class="command">git push</code> ou
+                  <code class="command">git pull</code> e for pedida a
+                  autenticação, use:
+                  <ul class="list-disc list-inside ml-6 mt-2">
+                    <li>
+                      <strong>Username:</strong> o seu nome de utilizador do
+                      GitHub.
+                    </li>
+                    <li>
+                      <strong>Password:</strong> cole o Personal Access Token
+                      (PAT) que acabou de copiar.
+                    </li>
+                  </ul>
+                </li>
+              </ol>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Como Guardar o Token no Linux (Opcional)
+              </h3>
+              <p class="mt-2">
+                Para não ter de colar o token sempre, pode guardá-lo em cache.
+              </p>
+              <h4 class="text-xl font-semibold text-white mt-4">
+                1. Guardar em cache por um tempo (Recomendado)
+              </h4>
+              <p class="mt-2">
+                Guarda o token na memória por um período (ex: 1 hora = 3600
+                segundos).
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>git config --global credential.helper 'cache --timeout=3600'</code></pre>
+
+              <h4 class="text-xl font-semibold text-white mt-4">
+                2. Guardar permanentemente (Menos seguro)
+              </h4>
+              <p class="mt-2">
+                Guarda o token num ficheiro de texto simples no seu computador.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code>git config --global credential.helper store</code></pre>
+            </section>
+
             <section id="parte1" class="mb-12 card p-8 rounded-lg">
               <h2 class="text-3xl font-bold text-white">
                 Parte 1: Começar um Projeto do Zero (Local)
@@ -384,6 +502,103 @@ git add README.md</code></pre>
                 Neste ponto, o seu repositório local está criado e já tem um
                 registo no histórico.
               </p>
+            </section>
+
+            <section
+              id="inspecionar-alteracoes"
+              class="mb-12 card p-8 rounded-lg"
+            >
+              <h2 class="text-3xl font-bold text-white">
+                Inspecionar Alterações Detalhadamente
+              </h2>
+              <p class="mt-2">
+                Antes de guardar as suas alterações, é crucial saber exatamente
+                o que mudou. O comando
+                <code class="command">git status</code> dá-lhe uma visão geral,
+                mas o <code class="command">git diff</code> mostra os detalhes
+                linha a linha.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                1. Ver alterações não preparadas (`git diff`)
+              </h3>
+              <p class="mt-2">
+                Mostra as diferenças entre os ficheiros no seu diretório de
+                trabalho e o que está na "staging area". Essencialmente, mostra
+                o que você alterou mas ainda não preparou com
+                <code class="command">git add</code>.
+              </p>
+              <pre class="code-block mt-2"><code>git diff</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                2. Ver alterações preparadas (`git diff --staged`)
+              </h3>
+              <p class="mt-2">
+                Depois de usar <code class="command">git add</code>, este
+                comando mostra as diferenças entre o que está na "staging area"
+                e o seu último commit. Permite-lhe rever uma última vez o que
+                está prestes a guardar no histórico.
+              </p>
+              <pre class="code-block mt-2"><code>git diff --staged</code></pre>
+            </section>
+
+            <section id="corrigir-erros" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Corrigir Erros Comuns (Antes do `push`)
+              </h2>
+              <p class="mt-2">
+                Cometeu um erro? Não há problema. O Git oferece ferramentas
+                seguras para corrigir erros antes de partilhar o seu trabalho.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                1. Desfazer `git add` (`git restore --staged`)
+              </h3>
+              <p class="mt-2">
+                Adicionou um ficheiro à "staging area" por engano? Pode
+                "retirá-lo da caixa" facilmente com este comando:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Tira o ficheiro da staging area, mas mantém as alterações no ficheiro</span>
+git restore --staged nome-do-ficheiro.js</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                2. Descartar alterações locais (`git restore`)
+              </h3>
+              <p class="mt-2">
+                Fez alterações a um ficheiro e arrependeu-se? Se quiser
+                descartar tudo e voltar à versão do último commit, use:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># AVISO: As alterações neste ficheiro serão perdidas permanentemente</span>
+git restore nome-do-ficheiro.js</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                3. Corrigir o último commit (`git commit --amend`)
+              </h3>
+              <p class="mt-2">
+                Deu-se conta de um erro na mensagem do seu último commit, ou
+                esqueceu-se de adicionar um ficheiro? Em vez de criar um novo
+                commit, pode "emendar" o anterior:
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Se esqueceu de um ficheiro, adicione-o primeiro</span>
+git add ficheiro-esquecido.css
+
+<span class="comment"># Execute o amend. Isto adiciona o novo ficheiro ao commit anterior e/ou abre o editor para corrigir a mensagem.</span>
+git commit --amend</code></pre>
+              <div
+                class="bg-red-900 bg-opacity-40 border-l-4 border-red-500 p-4 rounded-r-lg my-6"
+              >
+                <strong>AVISO:</strong> Use
+                <code class="command">--amend</code> apenas em commits que ainda
+                não enviou com <code class="command">git push</code>. Alterar
+                commits que já estão num repositório partilhado pode causar
+                problemas para os seus colegas.
+              </div>
             </section>
 
             <section id="gitignore" class="mb-12 card p-8 rounded-lg">
@@ -740,8 +955,8 @@ git stash pop</code></pre>
               </h2>
               <p class="mt-2">
                 Este é o fluxo de trabalho essencial para contribuir para
-                projetos em equipa ou open-source, especialmente quando não tem
-                permissão para escrever diretamente no repositório principal.
+                projetos open-source ou em equipas onde não tem permissão para
+                escrever diretamente no repositório principal.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
@@ -750,9 +965,8 @@ git stash pop</code></pre>
               <p class="mt-2">
                 Um <code class="command">fork</code> é uma cópia de um
                 repositório que fica na sua própria conta do GitHub. Pense nele
-                como a sua "sandbox" pessoal. Você pode fazer as alterações que
-                quiser no seu fork sem afetar o projeto original. Para o criar,
-                basta clicar no botão "Fork" na página do repositório original.
+                como a sua "sandbox" pessoal. Para o criar, basta clicar no
+                botão "Fork" na página do repositório original.
               </p>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
@@ -769,17 +983,60 @@ git stash pop</code></pre>
               ><code>git clone https://github.com/o-seu-username/nome-do-repo-forked.git</code></pre>
 
               <h3 class="text-2xl font-semibold text-white mt-6">
-                Passo 3: Pull Request (PR) – Propor as Suas Alterações
+                Passo 3: Configurar o Remote `upstream`
               </h3>
               <p class="mt-2">
-                Depois de fazer as alterações localmente (num novo branch,
-                claro!), você envia-as para o <strong>seu fork</strong> no
-                GitHub. A partir daí, o GitHub permite-lhe abrir um
+                Após clonar o seu fork, o seu repositório local só conhece a
+                ligação ao seu fork (chamada `origin`). É crucial adicionar uma
+                ligação ao repositório original para que possa manter o seu fork
+                atualizado. Por convenção, este remote chama-se `upstream`.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Navegue para a pasta do seu projeto clonado</span>
+cd nome-do-repo-forked
+
+<span class="comment"># Adicione o repositório original como um novo remote</span>
+git remote add upstream https://github.com/usuario-original/nome-do-repo-original.git
+
+<span class="comment"># Verifique se os remotes foram adicionados corretamente</span>
+git remote -v</code></pre>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 4: Manter o Fork Sincronizado
+              </h3>
+              <p class="mt-2">
+                Antes de começar a trabalhar numa nova funcionalidade, deve
+                sempre sincronizar o branch <code class="command">main</code> do
+                seu fork com o do repositório original.
+              </p>
+              <pre
+                class="code-block mt-2"
+              ><code><span class="comment"># Mude para o seu branch main local</span>
+git checkout main
+
+<span class="comment"># Puxe as últimas atualizações do repositório original (upstream)</span>
+git pull upstream main
+
+<span class="comment"># Envie estas atualizações para o seu fork (origin)</span>
+git push origin main</code></pre>
+              <p class="mt-2">
+                Este ciclo garante que começa a trabalhar sempre a partir da
+                versão mais recente do projeto, evitando conflitos.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                Passo 5: Pull Request (PR) – Propor as Suas Alterações
+              </h3>
+              <p class="mt-2">
+                Depois de fazer as alterações localmente (num novo branch!),
+                você envia-as para o <strong>seu fork</strong> no GitHub (<code
+                  class="command"
+                  >git push origin nome-do-seu-branch</code
+                >). A partir daí, o GitHub permite-lhe abrir um
                 <code class="command">Pull Request</code>. Este é um pedido
                 formal ao dono do projeto original para que ele "puxe" (pull) e
-                junte (merge) as suas alterações ao projeto principal. Um bom PR
-                tem um título claro e uma descrição detalhada do que foi feito e
-                porquê, iniciando um processo de revisão e discussão.
+                junte (merge) as suas alterações ao projeto principal.
               </p>
             </section>
 
