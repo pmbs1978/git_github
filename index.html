@@ -115,6 +115,13 @@
             </li>
             <li>
               <a
+                href="#multi-pc"
+                class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
+                >Trabalhar em Vários PCs</a
+              >
+            </li>
+            <li>
+              <a
                 href="#branches"
                 class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded transition-colors duration-200"
                 >Trabalhar com Branches</a
@@ -502,6 +509,78 @@ git remote add origin https://github.com/o-seu-username/meu-primeiro-repo.git</c
                   GitHub no terminal para autorizar esta ação.
                 </p>
               </div>
+            </section>
+
+            <section id="multi-pc" class="mb-12 card p-8 rounded-lg">
+              <h2 class="text-3xl font-bold text-white">
+                Trabalhar no Mesmo Repositório em Vários Computadores
+              </h2>
+              <p class="mt-2">
+                Esta é uma das grandes vantagens de usar o GitHub. O processo
+                para continuar a trabalhar num projeto seu noutro computador é
+                simples e seguro.
+              </p>
+
+              <h3 class="text-2xl font-semibold text-white mt-6">
+                O Fluxo de Trabalho
+              </h3>
+              <ol class="list-decimal list-inside space-y-4 mt-4">
+                <li>
+                  <strong>No Computador 1 (onde começou o projeto):</strong>
+                  Antes de sair, certifique-se de que todas as suas últimas
+                  alterações estão guardadas e enviadas para o GitHub.
+                  <pre class="code-block mt-2"><code>git add .
+git commit -m "Últimas alterações do dia"
+git push</code></pre>
+                </li>
+                <li>
+                  <strong>No Computador 2 (o novo local de trabalho):</strong>
+                  <p class="mt-2">
+                    Aqui, em vez de iniciar um novo repositório, você vai
+                    "clonar" o que já existe no GitHub.
+                  </p>
+                  <ol class="list-alpha list-inside space-y-2 mt-2 ml-4">
+                    <li>
+                      Abra o terminal e navegue para a pasta onde guarda os seus
+                      projetos.
+                    </li>
+                    <li>
+                      Vá à página do seu repositório no GitHub, clique em
+                      <code class="command">&lt;&gt; Code</code> e copie o URL
+                      HTTPS.
+                    </li>
+                    <li>
+                      Execute o comando <code class="command">git clone</code>:
+                      <pre
+                        class="code-block mt-2"
+                      ><code>git clone https://github.com/o-seu-username/meu-primeiro-repo.git</code></pre>
+                      <p class="mt-2 text-sm text-gray-400">
+                        Isto irá descarregar o projeto, todo o seu histórico, e
+                        configurar automaticamente a ligação ao GitHub.
+                      </p>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <strong>Trabalhar no Computador 2:</strong> Faça as suas
+                  alterações, commits e, quando terminar, envie tudo de volta
+                  para o GitHub com <code class="command">git push</code>.
+                </li>
+                <li>
+                  <strong>De volta ao Computador 1:</strong> Este é o passo
+                  crucial. Antes de voltar a trabalhar no computador original,
+                  tem de "puxar" as alterações que fez no Computador 2.
+                  <pre
+                    class="code-block mt-2"
+                  ><code><span class="comment"># Sincroniza o seu repositório local com as últimas alterações do GitHub</span>
+git pull</code></pre>
+                  <p class="mt-2">
+                    Manter este ciclo de <strong>push</strong> (ao sair de um
+                    PC) e <strong>pull</strong> (ao chegar a outro) garante que
+                    ambos os locais estão sempre sincronizados.
+                  </p>
+                </li>
+              </ol>
             </section>
 
             <section id="branches" class="mb-12 card p-8 rounded-lg">
